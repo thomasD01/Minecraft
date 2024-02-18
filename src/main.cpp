@@ -72,7 +72,7 @@ int main(UNUSED int argc, UNUSED char *argv[]) {
                     std::chrono::high_resolution_clock::now()
                         .time_since_epoch()).count();
         });
-    state.platform.resources_path = "res";
+    state.platform.resources_path = "../res";
     state.platform.log_out = &std::cout;
     state.platform.log_err = &std::cerr;
 

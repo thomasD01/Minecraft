@@ -16,7 +16,6 @@ inline std::string get_platform_shader(
 
     switch (bgfx::getRendererType()) {
         case bgfx::RendererType::Noop:
-        case bgfx::RendererType::Direct3D9:  platform = "dx9";   break;
         case bgfx::RendererType::Direct3D11:
         case bgfx::RendererType::Direct3D12: platform = "dx11";  break;
         case bgfx::RendererType::Agc:
@@ -26,7 +25,6 @@ inline std::string get_platform_shader(
         case bgfx::RendererType::OpenGL:     platform = "glsl";  break;
         case bgfx::RendererType::OpenGLES:   platform = "essl";  break;
         case bgfx::RendererType::Vulkan:     platform = "spirv"; break;
-        case bgfx::RendererType::WebGPU:     platform = "spirv"; break;
         default:
             // TODO
             break;
@@ -58,7 +56,10 @@ inline util::Result<std::tuple<glm::ivec2, bgfx::TextureHandle>, std::string>
     glm::ivec2 size;
     int channels;
     stbi_set_flip_vertically_on_load(true);
-    u8 *data = stbi_load(path.c_str(), &size.x, &size.y, &channels, 0);
+
+    const std::string fixedPath = "../" + path;
+
+    u8 *data = stbi_load(fixedPath.c_str(), &size.x, &size.y, &channels, 0);
 
     auto res =
         bgfx::createTexture2D(
